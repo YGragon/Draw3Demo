@@ -3,7 +3,9 @@ package com.hencoder.hencoderpracticedraw4.practice;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Camera;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
@@ -17,6 +19,14 @@ public class Practice12CameraRotateFixedView extends View {
     Bitmap bitmap;
     Point point1 = new Point(200, 200);
     Point point2 = new Point(600, 200);
+    Camera camera = new Camera() ;
+    Matrix matrix = new Matrix() ;
+    private int bitmapWidth;
+    private int bitmapHeight;
+    private int center1X;
+    private int center1Y;
+    private int center2X;
+    private int center2Y;
 
     public Practice12CameraRotateFixedView(Context context) {
         super(context);
@@ -32,13 +42,39 @@ public class Practice12CameraRotateFixedView extends View {
 
     {
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.maps);
+        bitmapWidth = bitmap.getWidth();
+        bitmapHeight = bitmap.getHeight();
+        center1X = point1.x + bitmapWidth / 2;
+        center1Y = point1.y + bitmapHeight / 2;
+        center2X = point2.x + bitmapWidth / 2;
+        center2Y = point2.y + bitmapHeight / 2;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        camera.save();
+        matrix.reset();
+        camera.rotateX(30);
+        camera.getMatrix(matrix);
+        camera.restore();
+        matrix.preTranslate(-center1X, -center1Y);
+        matrix.postTranslate(center1X, center1Y);
+        canvas.save();
+        canvas.concat(matrix);
         canvas.drawBitmap(bitmap, point1.x, point1.y, paint);
+        canvas.restore();
+
+        camera.save();
+        matrix.reset();
+        camera.rotateY(30);
+        camera.getMatrix(matrix);
+        camera.restore();
+        matrix.preTranslate(-center2X, -center2Y);
+        matrix.postTranslate(center2X, center2Y);
+        canvas.save();
+        canvas.concat(matrix);
         canvas.drawBitmap(bitmap, point2.x, point2.y, paint);
+        canvas.restore();
     }
 }

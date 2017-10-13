@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
@@ -47,6 +48,17 @@ public class Practice13CameraRotateHittingFaceView extends View {
         animator.setDuration(5000);
         animator.setInterpolator(new LinearInterpolator());
         animator.setRepeatCount(ValueAnimator.INFINITE);
+
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float newZ = - displayMetrics.density * 6;
+        /**
+         * 设置虚拟相机的位置
+         *      参数单位是 英寸！！，不是像素；
+         *      1英寸 = 72像素
+         *      camera 中相机的默认位置是（0，0，-8），单位是英寸。所以它的默认位置是（0，0，-72*8）像素
+         *      setLocation(x,y,z)：能够修复这种问题，x、y一般不回改变，直接填 0 就好，z 设置为新的位置
+         */
+        camera.setLocation(0, 0, newZ);
     }
 
     @Override
