@@ -40,7 +40,7 @@ public class Practice01ClipRectView extends View {
 
         /**
          *
-         * 记得要加上canvas.save()和canvas.restore()来即使回复绘制范围
+         * 记得要加上canvas.save()和canvas.restore()来使恢复绘制范围
          *
          * */
         canvas.save() ;

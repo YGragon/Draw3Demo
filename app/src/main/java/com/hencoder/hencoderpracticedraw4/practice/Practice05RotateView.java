@@ -51,7 +51,6 @@ public class Practice05RotateView extends View {
 
         canvas.save() ;
         canvas.rotate(45,point2.y+200,point2.y+200);
-        canvas.translate(200,-50);
         canvas.drawBitmap(bitmap, point2.x, point2.y, paint);
         canvas.restore();
     }
